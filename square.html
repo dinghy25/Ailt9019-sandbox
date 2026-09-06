@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平方计算器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #888;
+            text-align: center;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result-box {
+            margin-top: 24px;
+            padding: 20px;
+            background: #f5f7ff;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .result-label {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            color: #667eea;
+            font-size: 32px;
+            font-weight: 700;
+            word-break: break-all;
+        }
+
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>平方计算器</h1>
+        <p class="subtitle">输入一个数字，计算其平方值（保留三位小数）</p>
+
+        <div class="input-group">
+            <label for="numberInput">请输入数字</label>
+            <input type="number" id="numberInput" placeholder="例如：3.14" step="any">
+        </div>
+
+        <button id="calcBtn">计算平方</button>
+
+        <div class="result-box" id="resultBox">
+            <div class="result-label">计算结果</div>
+            <div class="result-value" id="resultValue">-</div>
+        </div>
+
+        <div class="error" id="errorMsg">请输入一个有效的数字！</div>
+    </div>
+
+    <script>
+        const numberInput = document.getElementById('numberInput');
+        const calcBtn = document.getElementById('calcBtn');
+        const resultBox = document.getElementById('resultBox');
+        const resultValue = document.getElementById('resultValue');
+        const errorMsg = document.getElementById('errorMsg');
+
+        function calculate() {
+            const value = numberInput.value.trim();
+
+            // 重置显示
+            resultBox.classList.remove('show');
+            errorMsg.classList.remove('show');
+
+            if (value === '' || isNaN(value)) {
+                errorMsg.textContent = '请输入一个有效的数字！';
+                errorMsg.classList.add('show');
+                return;
+            }
+
+            const num = parseFloat(value);
+            const square = num * num;
+            const formatted = square.toFixed(3);
+
+            resultValue.textContent = formatted;
+            resultBox.classList.add('show');
+        }
+
+        calcBtn.addEventListener('click', calculate);
+
+        numberInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                calculate();
+            }
+        });
+    </script>
+</body>
+</html>
